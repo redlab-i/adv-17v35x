@@ -1,0 +1,5 @@
+files
+*.debhelper*
+*.substvars*
+adv-17v35x-dkms.dkms
+adv-17v35x-dkms/

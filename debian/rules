@@ -1,0 +1,26 @@
+#!/usr/bin/make -f
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+%:
+	dh $@
+
+DRIVERS_DKMS_CONF = "debian/adv-17v35x-dkms.dkms"
+DRIVERS_DKMS_MODULES = adv-17v35x
+DEB_VERSION=$(shell dpkg-parsechangelog | egrep '^Version:' | cut -d' ' -f2)
+
+override_dh_auto_build-indep:
+	sed s/@VERSION@/$(DEB_VERSION)/g < $(DRIVERS_DKMS_CONF).in > $(DRIVERS_DKMS_CONF)
+	n=0; \
+	for i in $(DRIVERS_DKMS_MODULES); do \
+		echo 'DEST_MODULE_LOCATION['$$n']="/kernel/drivers/adv-17v35x/"' >> $(DRIVERS_DKMS_CONF); \
+		echo 'BUILT_MODULE_NAME['$$n']="'$$i'"' >> $(DRIVERS_DKMS_CONF); \
+		n=$$((n+1)); \
+	done
+
+override_dh_install:
+	dh_install -padv-17v35x-dkms Makefile \
+		*.c \
+		*.h \
+		usr/src/adv-17v35x-$(DEB_VERSION)
+	dh_dkms -padv-17v35x-dkms

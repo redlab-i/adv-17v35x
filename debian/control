@@ -1,0 +1,32 @@
+Source: adv-17v35x
+Section: net
+Priority: optional
+Maintainer: Andrey Drobyshev <immortalguardian@redlab-i.ru>
+Uploaders: Alexander Gerasiov <gq@debian.org>
+Build-Depends: debhelper (>= 9.0.0), dkms
+Standards-Version: 4.0.1
+Homepage: http://support.advantech.com
+Vcs-Git: git://github.com/redlab-i/adv-17v35x.git
+Vcs-Browser: https://github.com/redlab-i/adv-17v35x
+
+Package: adv-17v35x-dkms
+Section: net
+Architecture: all
+Depends: dkms, ${misc:Depends}
+Description: dkms driver sources for Advantech PCI/PCIe ACOM Series adapters
+ This serial driver provides kernel support for the following multiport
+ Advantech boards (using EXAR chip):
+   PCIE-1602
+   PCIE-1604
+   PCIE-1610
+   PCIE-1612
+   PCIE-1620
+   PCIE-1622
+   PCM-3612I
+   PCI-1602
+   PCI-1604
+   PCI-1610
+   PCI-1612
+   PCI-1620
+   PCI-1622
+ The package is aimed to provide DKMS support for this driver.
