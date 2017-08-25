@@ -6,7 +6,7 @@
 	dh $@
 
 DRIVERS_DKMS_CONF = "debian/adv-17v35x-dkms.dkms"
-DRIVERS_DKMS_MODULES = adv-17v35x
+DRIVERS_DKMS_MODULES = adv17v35x
 DEB_VERSION=$(shell dpkg-parsechangelog | egrep '^Version:' | cut -d' ' -f2)
 
 override_dh_auto_build-indep:
