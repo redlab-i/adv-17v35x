@@ -1,0 +1,48 @@
+From ec658b4dd4b86e8921c3975bf54da93728e82f3d Mon Sep 17 00:00:00 2001
+From: Seth Forshee <seth.forshee@canonical.com>
+Date: Fri, 2 Feb 2018 16:50:52 +0100
+Subject: [PATCH] Update for timer api changes in Linux 4.15
+
+Signed-off-by: Seth Forshee <seth.forshee@canonical.com>
+---
+ adv17v35x.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/adv17v35x.c b/adv17v35x.c
+index 54026d0..285ef94 100644
+--- a/adv17v35x.c
++++ b/adv17v35x.c
+@@ -1109,9 +1109,17 @@ static inline int poll_timeout(int timeout)
+  * barely passable results for a 16550A.  (Although at the expense
+  * of much CPU overhead).
+  */
++#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 15, 0)
+ static void serialadv_timeout(unsigned long data)
++#else
++static void serialadv_timeout(struct timer_list *t)
++#endif
+ {
++#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 15, 0)
+ 	struct uart_adv_port *up = (struct uart_adv_port *)data;
++#else
++	struct uart_adv_port *up = from_timer(up, t, timer);
++#endif
+ 	unsigned int iir;
+ 
+ 	iir = serial_in(up, UART_IIR);
+@@ -2205,8 +2213,12 @@ int serialadv_register_port(struct uart_port *port, unsigned short deviceid,
+ 		uart->index = index;
+ 		spin_lock_init(&uart->port.lock);
+ 
++#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 15, 0)
+ 		init_timer(&uart->timer);
+ 		uart->timer.function = serialadv_timeout;
++#else
++		timer_setup(&uart->timer, serialadv_timeout, 0);
++#endif
+ 
+ 		/*
+ 		 * ALPHA_KLUDGE_MCR needs to be killed.
+-- 
+2.11.0
+
