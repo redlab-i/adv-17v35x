@@ -1,5 +1,5 @@
 Source: adv-17v35x
-Section: net
+Section: kernel
 Priority: optional
 Maintainer: Andrey Drobyshev <immortalguardian@redlab-i.ru>
 Uploaders: Alexander Gerasiov <gq@debian.org>
@@ -10,7 +10,6 @@ Vcs-Git: https://github.com/redlab-i/adv-17v35x
 Vcs-Browser: https://github.com/redlab-i/adv-17v35x
 
 Package: adv-17v35x-dkms
-Section: net
 Architecture: all
 Depends: dkms, ${misc:Depends}
 Description: dkms driver sources for Advantech PCI/PCIe ACOM Series adapters
