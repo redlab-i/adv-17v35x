@@ -1,5 +1,5 @@
 Source: adv-17v35x
-Section: net
+Section: kernel
 Priority: optional
 Maintainer: Andrey Drobyshev <immortalguardian@redlab-i.ru>
 Uploaders: Alexander Gerasiov <gq@debian.org>
