@@ -1109,9 +1109,17 @@ static inline int poll_timeout(int timeout)
  * barely passable results for a 16550A.  (Although at the expense
  * of much CPU overhead).
  */
+#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 15, 0)
 static void serialadv_timeout(unsigned long data)
+#else
+static void serialadv_timeout(struct timer_list *t)
+#endif
 {
+#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 15, 0)
 	struct uart_adv_port *up = (struct uart_adv_port *)data;
+#else
+	struct uart_adv_port *up = from_timer(up, t, timer);
+#endif
 	unsigned int iir;
 
 	iir = serial_in(up, UART_IIR);
@@ -2205,8 +2213,12 @@ int serialadv_register_port(struct uart_port *port, unsigned short deviceid,
 		uart->index = index;
 		spin_lock_init(&uart->port.lock);
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 15, 0)
 		init_timer(&uart->timer);
 		uart->timer.function = serialadv_timeout;
+#else
+		timer_setup(&uart->timer, serialadv_timeout, 0);
+#endif
 
 		/*
 		 * ALPHA_KLUDGE_MCR needs to be killed.
