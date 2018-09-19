@@ -1,12 +1,13 @@
 adv-17v35x (5.0.3.0-3) UNRELEASED; urgency=medium
 
   * Use secure copyright file specification URI.
+  * Trim trailing whitespace.
 
  -- Jelmer Vernooĳ <jelmer@debian.org>  Wed, 19 Sep 2018 09:59:56 +0100
 
 adv-17v35x (5.0.3.0-2) unstable; urgency=medium
 
-  * Add 0001-Update-for-timer-api-changes-in-Linux-4.15.patch, thanks to 
+  * Add 0001-Update-for-timer-api-changes-in-Linux-4.15.patch, thanks to
     Seth Forshee.
   * Bump Standards-Version to 4.1.3 (no additional changes needed).
   * debian/control: Set section to kernel according to lintian warning.
