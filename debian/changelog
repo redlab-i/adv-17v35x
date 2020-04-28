@@ -4,6 +4,7 @@ adv-17v35x (5.0.3.0-3) UNRELEASED; urgency=medium
   * Use secure copyright file specification URI.
   * Use secure URI in Homepage field.
   * Bump debhelper from deprecated 9 to 12.
+  * Set debhelper-compat version in Build-Depends.
 
  -- Debian Janitor <janitor@jelmer.uk>  Tue, 28 Apr 2020 14:32:19 +0000
 
