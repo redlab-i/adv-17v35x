@@ -6,7 +6,7 @@ Uploaders: Alexander Gerasiov <gq@debian.org>
 Build-Depends: debhelper-compat (= 12), dkms
 Standards-Version: 4.1.3
 Homepage: https://support.advantech.com
-Vcs-Git: https://github.com/redlab-i/adv-17v35x
+Vcs-Git: https://github.com/redlab-i/adv-17v35x.git
 Vcs-Browser: https://github.com/redlab-i/adv-17v35x
 
 Package: adv-17v35x-dkms
