@@ -1,6 +1,7 @@
 adv-17v35x (5.0.3.0-3) UNRELEASED; urgency=medium
 
   * Trim trailing whitespace.
+  * Use secure copyright file specification URI.
 
  -- Debian Janitor <janitor@jelmer.uk>  Tue, 28 Apr 2020 14:32:19 +0000
 
