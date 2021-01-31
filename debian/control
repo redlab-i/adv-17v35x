@@ -1,8 +1,7 @@
 Source: adv-17v35x
 Section: kernel
 Priority: optional
-Maintainer: Andrey Drobyshev <immortalguardian@redlab-i.ru>
-Uploaders: Alexander Gerasiov <gq@debian.org>
+Maintainer: Debian QA Group <packages@qa.debian.org>
 Build-Depends: debhelper-compat (= 12), dkms
 Standards-Version: 4.1.3
 Homepage: https://support.advantech.com
