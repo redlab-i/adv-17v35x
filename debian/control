@@ -20,6 +20,10 @@ Description: dkms driver sources for Advantech PCI/PCIe ACOM Series adapters
    PCIE-1612
    PCIE-1620
    PCIE-1622
+   PCM-2602C
+   PCM-2604C
+   PCM-2610B
+   PCM-2612B
    PCM-3612I
    PCI-1602
    PCI-1604
