@@ -3,11 +3,12 @@ Upstream-Name: adv17-v35x
 Source: http://support.advantech.com/support/SearchResult.aspx?keyword=Linux+driver+for+ACOM
 
 Files: *
-Copyright: (C) 2016 Advantech Co., Ltd
+Copyright: (C) 2016-2020 Advantech Co., Ltd
 License: GPL-2+
 
 Files: debian/*
-Copyright: 2017 Andrey Drobyshev <immortalguardian@redlab-i.ru>
+Copyright: 2017 Andrey Drobyshev <immortalguardian@redlab-i.ru>,
+	   2017-2021 Alexander Gerasiov <gq@debian.org>
 License: GPL-2+
 
 License: GPL-2+
