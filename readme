@@ -1,12 +1,22 @@
 =============================================================================
 
-        Advantech PCIe Multiport Device Driver Ver 5.0.3.0 Installation Guide
-         for Linux Kernel 2.6.9 and newer (Tested on various kernels from 
-         2.6.9 to 4.2.x)
-			Copyright (C) 2017, Advantech.
+    Advantech PCIe Multiport Device Driver Installation Guide for Linux
+            Copyright (C) 2019, Advantech.
 =============================================================================
 
 Changes log:
+Version 5.0.6.0 <2019-10-16>
+    -support for CentOS7.6
+
+Version 5.0.5.1 <2019-07-22>
+    -fix compile error in kernel 4.15 and later version;
+	
+Version 5.0.4.0 <2018-03-21>
+    - Add XON ANY support;
+    - Support termios2 for non-standard baud rate;
+    - Fix RTS, DTR incorrect issue;
+    - Support new products;
+
 Version 5.0.3.0 <2017-03-06>
     - Add fixed number;
     - Add a parameter to enable/disable internal loopback;
@@ -25,8 +35,8 @@ Version 5.0.1.0 <2015-08-28>
 -----------------------------------------------------------------------------
 1. Introduction
 
-    The PCI/PCIe Multiport serial driver Ver 5.0.3.0, supports the following 
-    multiport boards.
+    The PCI/PCIe Multiport serial driver, supports the following multiport
+    boards.
 
         - PCIE-1602 PCIe Multiport (2 Channels) Boards
         - PCIE-1604 PCIe Multiport (2 Channels) Boards
@@ -34,6 +44,10 @@ Version 5.0.1.0 <2015-08-28>
         - PCIE-1612 PCIe Multiport (4 Channels) Boards
         - PCIE-1620 PCIe Multiport (8 Channels) Boards
         - PCIE-1622 PCIe Multiport (8 Channels) Boards
+        - PCM-2602C PCM  Multiport (2 Channels) Boards
+        - PCM-2604C PCM  Multiport (2 Channels) Boards
+        - PCM-2610B PCM  Multiport (4 Channels) Boards
+        - PCM-2612B PCM  Multiport (4 Channels) Boards
         - PCM-3612I PCM  Multiport (4 Channels) Boards
         - PCI-1602  PCI  Multiport (2 Channels) Boards
         - PCI-1604  PCI  Multiport (2 Channels) Boards
@@ -43,117 +57,130 @@ Version 5.0.1.0 <2015-08-28>
         - PCI-1622  PCI  Multiport (8 Channels) Boards
 
     This driver and installation procedure have been tested on various
-    kernel versions from 2.6.9 to 4.2.x.
-    
+    kernel versions.
+
     All the drivers and utilities are published in form of source code under
     GNU General Public License in this version. Please refer to GNU General
     Public License announcement in each source code file for more detail.
-    
+
     This version of driver can be installed as Loadable Module (Module driver)
     or built-in into kernel (Static driver). You may refer to following
     installation procedure for suitable one. Before you install the driver,
     please refer to hardware installation procedure in the User's Manual.
-    
+
     We assume the user should be familiar with following documents.
     - Serial-HOWTO
     - Kernel-HOWTO
-   
+
 -----------------------------------------------------------------------------
 2. System Requirement
 
     - Hardware platform: Intel x86
-    - Kernel version: 2.6.9 or newer
     - Maximum of 256 ports can be installed in any PCI/PCIe board combination
-    - This driver has been tested on various kernel versions from 2.6.9 to 
-      4.2.x.  
-   
-      It is tested in follow systems:
-        +--------------------------------+--------------------------------+
-        |    Distribution                |  kernel version                |
-        +--------------------------------+--------------------------------+
-        |	Red Hat Enterprise 4.3 32    |  2.6.9-34                      |
-        |	Red Hat Enterprise 5.5 32    |  2.6.18-194.el5PAE             |
-        |	Red Hat Enterprise 6.1 64    |  2.6.32-131.0.15.el6.x86_64    |
-        |	Red Hat Enterprise 7.0 64    |  3.10.0-123.el7.x86_64         |
-        |	Red Hat Enterprise 7.2 64    |  3.10.0                        |
-        |	Ubuntu 10.04 32              |  2.6.32-21-generic             |
-        |	Ubuntu 12.04 64              |  3.2.0-23-generic              |
-        |	Ubuntu 14.04 64              |  3.13.0-24-generic             |
-        |	Ubuntu 15.10 32              |  4.2                           |
-        |	Fedora 20    64              |  3.11.10-301.fc20.x86_64       |
-        |	Fedora 23    32              |  4.2.3                         |
-        |	Debian 8.4   32              |  3.16.0                        |
-        +--------------------------------+--------------------------------+
+    - This driver has been tested on various kernel versions.
 
-    It is strongly recommended that the user do a complete install of all 
+      It is tested in follow systems:
+	 ------------------------------------------ -------------- ----------------
+	|             Distribution                 |     Kernel version            |
+	 ------------------------------------------ -------------------------------
+	|  Ubuntu 12.04/14.04/15.10(Desktop)/18.04 |      3.2/3.13/4.2/4.15        |
+	 ------------------------------------------ -------------------------------
+	|  Redhat Enterprise Linux Server 7.2      |         3.10.0                |
+	 ------------------------------------------ -------------------------------
+	|  OpenSUSE 15.0                           |         4.12.14               |
+	 ------------------------------------------ -------------------------------
+	|  Debian 9.5                              |         4.9.0                 |
+	 ------------------------------------------ -------------------------------
+	|  CentOS 7.6                              |         3.10.0                |
+	 ------------------------------------------ -------------------------------
+
+    It is strongly recommended that the user do a complete install of all
     components to ensure that this driver works correctly.
 
 -----------------------------------------------------------------------------
 3. Installation
-   
+
     3.1. Login as 'root' before executing the following instructions.
-    
+
     3.2. Uncompress the driver
     # tar zxvf adv_17V35X-VerX.tar.gz
-    
+
     3.3. Build the driver
-      # cd adv_17V35X-VerX
+      # cd adv_17V35X
       # make
-    Note: 
-      To compile the source code, you must install kernel development header 
+    Note:
+      To compile the source code, you must install kernel development header
       file package,"gcc" and "make" command.
-    
+
     3.4. Install the driver module
     # make install
-    to see whether ttyAPn ( n = 1,2,3...) exist in /dev/ folder,      
-    or      
+    or
     #insmod ./adv17v35x.ko
-    
+    to see whether ttyAPn or ttyBnPn ( n = 1,2,3...) exist in /dev/ folder.
+
     3.5. Uninstall the driver module and clean
     # make uninstall
     # make clean
-    or 
+    or
     #rmmod adv17v35x
-    
+
     3.6 Verify driver installation
-    You may run command "dmesg" to check the latest status
-    log reported by this driver whenever it's activated.
-    
-    This module registers Advantech ports as "/dev/ttyAP0", "/dev/ttyAP1", etc. 
-    Use "minicom" or your custom serial application to test the ports       
-    
-    Attention! The name of PCIE-16XX ports are the same as Old cards which use 
-    Oxford chip, so don't use them at the same time.  
+    You may run command "dmesg" to check the latest status log reported by
+    this driver whenever it's activated.
+
+    This module registers Advantech ports as "/dev/ttyAP0", "/dev/ttyAP1", etc.
+    Use "minicom" or your custom serial application to test the ports
+
+    Attention! The name of PCIE-16XX ports are the same as Old cards which use
+    Oxford chip, so don't use them at the same time.
 -----------------------------------------------------------------------------
 4. Driver files and device naming convention
-   
+
     The driver file may be obtained via email. The first step, anyway, is to
     copy driver file "adv_17V35X-VerX" into specified
     directory. e.g. /advantech. The execute commands as below.
-    
+
     # cd /advantech/adv_17V35X-VerX
-     
+
     You may find the driver source code in /advantech/adv_17V35X-VerX.
-    
+
     Driver creates traditional serial device names, "/dev/ttyAP0" onwards.
-    
+
     Device naming when multiple boards are installed
     -----------------------------------------------
     assuming 2 PCIE-1602 boards, 1 PCIE-1610 board and
     1 PCIE-1622 board.
-    
-    Board Num.	            Port Name
-    1st board (1602)	    ttyAP0  - ttyAP1
-    2nd board (1602)	    ttyAP2  - ttyAP3
-    3rd board (1610)	    ttyAP4  - ttyAP7
-    4th board (1622)	    ttyAP8  - ttyAP15
-    
-    Note. We don't know which card be found first, maybe 1602, or 1610, or 
-    1622. This depends on the sequence that operating system scanning. 
- 
------------------------------------------------------------------------------ 
-5. Troubleshooting
-   
+
+    Board Num.              Port Name
+    1st board (1602)        ttyAP0  - ttyAP1
+    2nd board (1602)        ttyAP2  - ttyAP3
+    3rd board (1610)        ttyAP4  - ttyAP7
+    4th board (1622)        ttyAP8  - ttyAP15
+
+    Note. We don't know which card be found first, maybe 1602, or 1610, or
+    1622. This depends on the sequence that operating system scanning.
+-----------------------------------------------------------------------------
+5. How to use Fixed Number
+
+    From the latest version (v5.0.3.0) on, we'll add the new feature
+    callled Fixed Number.
+
+    This function enables the user to alternate the PCI/PCIE card slot without
+    changing the name of the device node generated by each port.
+
+    5.1 Using the old naming "ttyAPn"
+    You'll find a switch called "Board ID" on the card. Adjust the switch
+    to "ON".
+
+    5.2 Using Fixed Number "ttyBnPn"
+    Naming: "ttyB" + Board ID + "P" + Index, such as "ttyB03P0", "ttyB15P1", etc.
+    You'll find a switch called "Board ID" on the card. Adjust the switch to
+    the opposite side of "ON", i.e. the non-zero value. For example, if you
+    want to generate a device node for "ttyB03Pn", you need to set "Board ID"
+    to 0x3.
+-----------------------------------------------------------------------------
+6. Troubleshooting
+
     The boot time error messages and solutions are stated as clearly as
     possible. If all the possible solutions fail, please contact our technical
     support team to get more help.

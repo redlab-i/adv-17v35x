@@ -12,7 +12,7 @@ xrpci-objs :=	adv17v35x.o
 EXTRA_CFLAGS += -DDEBUG=1
 
 build:
-	$(MAKE) -C $(KERNEL_SRC) SUBDIRS=$(PWD) modules
+	$(MAKE) -C $(KERNEL_SRC) M=$(PWD) modules
 
 clean:
 	@rm -f *.o
